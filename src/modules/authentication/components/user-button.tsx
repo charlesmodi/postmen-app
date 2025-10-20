@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  User,
-  LogOut,
-  Settings,
-  CreditCard,
-  User as UserIcon,
-} from "lucide-react";
+import { LogOut, Settings, CreditCard, User as UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -22,14 +16,14 @@ import { Badge } from "@/components/ui/badge";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
-// Types for the user data
+// ✅ Updated type: createdAt & updatedAt are strings (from DB/JSON)
 interface UserData {
   id: string;
   email: string | null;
   name: string | null;
   image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface UserButtonProps {
@@ -62,6 +56,7 @@ export default function UserButton({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  // ✅ Sign out logic
   const onSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
@@ -83,7 +78,7 @@ export default function UserButton({
     }
   };
 
-  // Get user initials for avatar fallback
+  // ✅ User initials for fallback
   const getUserInitials = (name: string | null, email: string | null) => {
     if (name) {
       return name
@@ -99,12 +94,14 @@ export default function UserButton({
     return "U";
   };
 
-  // Format member since date
-  const formatMemberSince = (date: Date) => {
+  // ✅ Safe date formatting
+  const formatMemberSince = (date: string | Date) => {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "Unknown";
     return new Intl.DateTimeFormat("en-US", {
       month: "long",
       year: "numeric",
-    }).format(new Date(date));
+    }).format(d);
   };
 
   // Avatar sizes
@@ -114,10 +111,8 @@ export default function UserButton({
     lg: "h-12 w-12",
   };
 
-  // Don't render if no user
-  if (!user) {
-    return null;
-  }
+  // ✅ Don't render if user missing
+  if (!user) return null;
 
   return (
     <DropdownMenu>
