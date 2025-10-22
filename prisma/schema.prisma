@@ -28,6 +28,8 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  workspaces    Workspace[]       @relation("UserWorkspaces")
+  memberships   WorkspaceMember[]
 
   @@unique([email])
   @@map("user")
@@ -76,4 +78,48 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+//---------------workspace and membership--------------------
+
+model Workspace {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  ownerId     String      
+  owner       User        @relation("UserWorkspaces", fields: [ownerId], references: [id])
+
+  // collections Collection[]
+  members     WorkspaceMember[]
+  // invites     WorkspaceInvite[]
+  // environments Environment[]
+
+  // websocketPresets WebSocketPreset[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@unique([name, ownerId])
+}
+
+enum MEMBER_ROLE{
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model WorkspaceMember{
+  id          String    @id @default(cuid())
+  role        MEMBER_ROLE @default(ADMIN)
+
+  userId      String
+  workspaceId String
+
+  user        User       @relation(fields: [userId], references: [id])
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id])
+
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+
+  @@unique([userId, workspaceId])
 }
