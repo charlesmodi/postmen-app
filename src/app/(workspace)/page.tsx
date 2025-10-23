@@ -5,18 +5,21 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import TabbedSidebar from "@/modules/collections/components/sidebar";
 import { useWorkspaceStore } from "@/modules/layout/store";
+
+import TabbedSidebar from "@/modules/collections/components/sidebar";
+
 import { useGetWorkspace } from "@/modules/workspaces/hooks/workspace";
 import { Loader } from "lucide-react";
+import PlaygroundPage from "@/modules/request/components/request-playground";
 
 const Page = () => {
   const { selectedWorkspace } = useWorkspaceStore();
-  const { data: currentWorkspace, isPending } = useGetWorkspace(
+  const { data: currentWorkspace, isLoading } = useGetWorkspace(
     selectedWorkspace?.id!
   );
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <Loader className="animate-spin h-6 w-6 text-indigo-500" />
@@ -27,7 +30,7 @@ const Page = () => {
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel defaultSize={65} minSize={40}>
-        <h1>Request play ground</h1>
+        <PlaygroundPage />
       </ResizablePanel>
 
       <ResizableHandle withHandle />

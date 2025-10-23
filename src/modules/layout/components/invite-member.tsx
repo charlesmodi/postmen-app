@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/ui/hint";
 import { UserPlus } from "lucide-react";

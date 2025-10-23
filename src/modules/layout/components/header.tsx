@@ -1,4 +1,5 @@
 "use client";
+
 import { Unplug, Search } from "lucide-react";
 import React from "react";
 import SearchBar from "./search-bar";
