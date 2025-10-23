@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import CreateCollection from "../../collections/components/create-collection";
 import { useCollections } from "@/modules/collections/hooks/collection";
 import EmptyCollections from "../../collections/components/empty-collections";
-import CollectionFolder from "@/modules/collections/components/collection-folder";
+import CollectionFolder from "./collection-folder";
 
 interface Props {
   currentWorkspace: any;

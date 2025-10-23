@@ -7,8 +7,10 @@ export function useWorkspaces() {
     queryFn: async () => getWorkspaces(),
   });
 }
+
 export function useCreateWorkspace() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (name: string) => createWorkspace(name),
     onSuccess: () => {

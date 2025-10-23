@@ -39,7 +39,7 @@ const Page = () => {
         className="flex"
       >
         <div className="flex-1">
-          <TabbedSidebar currentWorkspace={currentWorkspace!} />
+          <TabbedSidebar currentWorkspace={currentWorkspace} />
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>
