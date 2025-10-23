@@ -75,7 +75,7 @@ const RequestEditorArea = ({ tab, updateTab }: Props) => {
         <TabsTrigger value="headers" className="flex-1">
           Headers
         </TabsTrigger>
-        <TabsTrigger value="body" className="flex-1 ">
+        <TabsTrigger value="body" className="flex-1">
           Body
         </TabsTrigger>
       </TabsList>
